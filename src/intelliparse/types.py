@@ -36,15 +36,15 @@ After parsing a file, you will receive a `ParsedFile` object, which you can then
 **Example:**
 
 ```python
-from intellibricks.files import (
+from intelliparse.types import (
     ParsedFile,
     SectionContent,
     TextPageItem,
     Image,
     PageItem,
     RawFile,
-    TxtFileParser
 )
+from intelliparse.parsers import TxtFileParser
 
 # Assume you have a RawFile object (e.g., from reading a text file)
 raw_file = RawFile.from_bytes(b"Sample text content", "txt")

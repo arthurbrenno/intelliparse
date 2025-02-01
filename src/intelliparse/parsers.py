@@ -36,7 +36,7 @@ To parse a file, you would typically use the `FileParser`. First, create a `RawF
 
 ```python
 from architecture.data.files import RawFile
-from intellibricks.files.parsers FileParser, ParsingStrategy
+from intelliparse.parsers FileParser, ParsingStrategy
 import asyncio
 
 async def main():
@@ -124,7 +124,7 @@ def _parses(
     **Example:**
 
     ```python
-    from intellibricks.files.parsers import FileParser, parses
+    from intelliparse.parsers import FileParser, parses
 
     @_parses("txt")
     class CustomTxtFileParser(FileParser):
@@ -155,7 +155,7 @@ class InvalidFileExtension(Exception):
 
     ```python
     from architecture.data.files import RawFile
-    from intellibricks.files.parsers import FileParser, InvalidFileExtension, ParsingStrategy
+    from intelliparse.parsers import FileParser, InvalidFileExtension, ParsingStrategy
     import asyncio
 
     async def main():
@@ -213,7 +213,7 @@ class ParserProtocol(msgspec.Struct, frozen=True, tag_field="type"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers TxtFileParser, ParserProtocol, ParsedFile, ParsingStrategy
+        from intelliparse.parsers TxtFileParser, ParserProtocol, ParsedFile, ParsingStrategy
 
         # Assume you have raw file content and name
         file_content = b"This is a text file content."
@@ -308,7 +308,7 @@ class FileParser(ParserProtocol, frozen=True, tag="parser"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers FileParser, ParsingStrategy, ParsedFile
+        from intelliparse.parsers FileParser, ParsingStrategy, ParsedFile
         import asyncio
 
         async def main():
@@ -400,7 +400,7 @@ class XMLFileParser(FileParser, frozen=True, tag="xml"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers XMLFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers XMLFileParser, ParsedFile, ParsingStrategy
         import asyncio
 
         async def main():
@@ -534,7 +534,7 @@ class CompressedFileParser(FileParser, frozen=True, tag="compressed"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers CompressedFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers CompressedFileParser, ParsedFile, ParsingStrategy
         import asyncio
         import zipfile
         import io
@@ -694,7 +694,7 @@ class DWGFileParser(FileParser, frozen=True, tag="dwg"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers DWGFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers DWGFileParser, ParsedFile, ParsingStrategy
         import asyncio
 
         async def main():
@@ -836,7 +836,7 @@ class PKTFileParser(FileParser, frozen=True, tag="pkt"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers PKTFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers PKTFileParser, ParsedFile, ParsingStrategy
         import asyncio
 
         async def main():
@@ -962,7 +962,7 @@ class PDFFileParser(FileParser, frozen=True, tag="pdf"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers PDFFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers PDFFileParser, ParsedFile, ParsingStrategy
         import asyncio
 
         async def main():
@@ -1092,7 +1092,7 @@ class DocxFileParser(FileParser, frozen=True, tag="docx"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers DocxFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers DocxFileParser, ParsedFile, ParsingStrategy
         import asyncio
 
         async def main():
@@ -1242,7 +1242,7 @@ class PptxFileParser(FileParser, frozen=True, tag="pptx"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers PptxFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers PptxFileParser, ParsedFile, ParsingStrategy
         import asyncio
 
         async def main():
@@ -1490,7 +1490,7 @@ class ExcelFileParser(FileParser, frozen=True, tag="excel"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers ExcelFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers ExcelFileParser, ParsedFile, ParsingStrategy
         import asyncio
 
         async def main():
@@ -1643,7 +1643,7 @@ class TxtFileParser(FileParser, frozen=True, tag="txt"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers TxtFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers TxtFileParser, ParsedFile, ParsingStrategy
         import asyncio
 
         async def main():
@@ -1728,7 +1728,7 @@ class StaticImageFileParser(FileParser, frozen=True, tag="static_image"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers StaticImageFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers StaticImageFileParser, ParsedFile, ParsingStrategy
         import asyncio
 
         async def main():
@@ -1870,7 +1870,7 @@ class AnimatedImageFileParser(FileParser, frozen=True, tag="animated_image"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers AnimatedImageFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers AnimatedImageFileParser, ParsedFile, ParsingStrategy
         import asyncio
 
         async def main():
@@ -2045,7 +2045,7 @@ class AudioFileParser(FileParser, frozen=True, tag="audio"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers AudioFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers AudioFileParser, ParsedFile, ParsingStrategy
         from intellibricks.agents import Agent
         from intellibricks.llms.mock_llm import MockLLM  # Example Mock LLM
         from intellibricks.llms.types import ChainOfThought, AudioDescription
@@ -2241,7 +2241,7 @@ class VideoFileParser(FileParser, frozen=True, tag="video"):
 
         ```python
         from architecture.data.files import RawFile
-        from intellibricks.files.parsers VideoFileParser, ParsedFile, ParsingStrategy
+        from intelliparse.parsers VideoFileParser, ParsedFile, ParsingStrategy
         from intellibricks.agents import Agent
         from intellibricks.llms.mock_llm import MockLLM  # Example Mock LLM
         from intellibricks.llms.types import ChainOfThought, VisualMediaDescription
