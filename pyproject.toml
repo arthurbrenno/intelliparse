@@ -1,0 +1,29 @@
+[project]
+name = "intelliparse"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Arthur Brenno", email = "64020210+arthurbrenno@users.noreply.github.com" }
+]
+requires-python = ">=3.13.1"
+dependencies = [
+    "aiofiles>=24.1.0",
+    "architecture>=0.5.45",
+    "intellibricks>=0.7.24",
+    "msgspec>=0.19.0",
+    "openpyxl>=3.1.5",
+    "pymupdf>=1.25.2",
+    "pypdf>=5.2.0",
+    "python-docx>=1.1.2",
+    "python-magic>=0.4.27",
+    "python-pptx>=1.0.2",
+    "rarfile>=4.2",
+]
+
+[project.scripts]
+intelliparse = "intelliparse:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
