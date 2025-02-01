@@ -1,5 +1,5 @@
 """
-Package: intellibricks.files
+Package: intelliparse
 
 This module provides classes and utilities for handling files within the IntelliBricks framework.
 It focuses on representing files as `RawFile` objects and parsing various file types to extract structured content.
@@ -22,7 +22,7 @@ To work with files in IntelliBricks, you would typically start by creating a `Ra
 **Example (Creating a RawFile from a file path):**
 
 ```python
-from intellibricks.files import RawFile
+from intelliparse import RawFile
 
 # Assuming you have a file named 'document.txt' in the same directory
 file_path = "document.txt"
@@ -36,7 +36,7 @@ print(f"File extension: {raw_file.extension}")
 Explore the `RawFile` class and the `intellibricks.parsers` module to learn more about file handling and parsing capabilities within IntelliBricks.
 """
 
-from .parsed_files import ParsedFile
+from .types import ParsedFile
 from .parsers import (
     FileParser,
     IntellibricksFileParser,
@@ -52,7 +52,6 @@ from .parsers import (
     AnimatedImageFileParser,
     TxtFileParser,
 )
-from .raw_file import RawFile
 
 __all__: list[str] = [
     "ParsedFile",
