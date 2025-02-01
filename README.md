@@ -19,7 +19,7 @@ print(f"📄 Text: {parsed.sections[0].text[:200]}...")
 
 ## 🌟 Features
 
-- ** Common File Formats** supported (PDF, DOCX, PPT, Images, Audio, Video, CAD, and more)
+- **Common File Formats** supported (PDF, DOCX, PPT, Images, Audio, Video, CAD, and more)
 - **AI-Powered Insights** - Automatic image descriptions, audio transcriptions, and content analysis
 - **Military-Grade Extraction (WIP)** - Text, tables, images, metadata, and document structure
 - **Easy Extension** - Add custom parsers in <10 lines of code
