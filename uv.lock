@@ -275,6 +275,15 @@ dependencies = [
     { name = "rarfile" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pyfiglet" },
+    { name = "questionary" },
+    { name = "rich" },
+    { name = "toml" },
+    { name = "tomlkit" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "aiofiles", specifier = ">=24.1.0" },
@@ -288,6 +297,15 @@ requires-dist = [
     { name = "python-magic", specifier = ">=0.4.27" },
     { name = "python-pptx", specifier = ">=1.0.2" },
     { name = "rarfile", specifier = ">=4.2" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "pyfiglet", specifier = ">=1.0.2" },
+    { name = "questionary", specifier = ">=2.1.0" },
+    { name = "rich", specifier = ">=13.9.4" },
+    { name = "toml", specifier = ">=0.10.2" },
+    { name = "tomlkit", specifier = ">=0.13.2" },
 ]
 
 [[package]]
@@ -605,6 +623,18 @@ wheels = [
 ]
 
 [[package]]
+name = "prompt-toolkit"
+version = "3.0.50"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "wcwidth" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a1/e1/bd15cb8ffdcfeeb2bdc215de3c3cffca11408d829e4b8416dcfe71ba8854/prompt_toolkit-3.0.50.tar.gz", hash = "sha256:544748f3860a2623ca5cd6d2795e7a14f3d0e1c3c9728359013f79877fc89bab", size = 429087 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e4/ea/d836f008d33151c7a1f62caf3d8dd782e4d15f6a43897f64480c2b8de2ad/prompt_toolkit-3.0.50-py3-none-any.whl", hash = "sha256:9b6427eb19e479d98acff65196a307c555eb567989e6d88ebbb1b509d9779198", size = 387816 },
+]
+
+[[package]]
 name = "pyasn1"
 version = "0.6.1"
 source = { registry = "https://pypi.org/simple" }
@@ -662,6 +692,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/a4/99/bddde3ddde76c03b65dfd5a66ab436c4e58ffc42927d4ff1198ffbf96f5f/pydantic_core-2.27.2-cp313-cp313-win32.whl", hash = "sha256:1ebaf1d0481914d004a573394f4be3a7616334be70261007e47c2a6fe7e50130", size = 1834387 },
     { url = "https://files.pythonhosted.org/packages/71/47/82b5e846e01b26ac6f1893d3c5f9f3a2eb6ba79be26eef0b759b4fe72946/pydantic_core-2.27.2-cp313-cp313-win_amd64.whl", hash = "sha256:953101387ecf2f5652883208769a79e48db18c6df442568a0b5ccd8c2723abee", size = 1990453 },
     { url = "https://files.pythonhosted.org/packages/51/b2/b2b50d5ecf21acf870190ae5d093602d95f66c9c31f9d5de6062eb329ad1/pydantic_core-2.27.2-cp313-cp313-win_arm64.whl", hash = "sha256:ac4dbfd1691affb8f48c2c13241a2e3b60ff23247cbcf981759c768b6633cf8b", size = 1885186 },
+]
+
+[[package]]
+name = "pyfiglet"
+version = "1.0.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a0/f2/2649b2acace54f861eccd4ab163bfd914236fc93ddb1df02dad2a2552b14/pyfiglet-1.0.2.tar.gz", hash = "sha256:758788018ab8faaddc0984e1ea05ff330d3c64be663c513cc1f105f6a3066dab", size = 832345 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1a/03/bef6fff907e212d67a0003f8ea4819307bba91b2856074a0763dd483ccc4/pyfiglet-1.0.2-py3-none-any.whl", hash = "sha256:889b351d79c99e50a3f619c8f8e6ffdb27fd8c939fc43ecbd7559bd57d5f93ea", size = 1085824 },
 ]
 
 [[package]]
@@ -761,6 +800,18 @@ wheels = [
 ]
 
 [[package]]
+name = "questionary"
+version = "2.1.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "prompt-toolkit" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a8/b8/d16eb579277f3de9e56e5ad25280fab52fc5774117fb70362e8c2e016559/questionary-2.1.0.tar.gz", hash = "sha256:6302cdd645b19667d8f6e6634774e9538bfcd1aad9be287e743d96cacaf95587", size = 26775 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ad/3f/11dd4cd4f39e05128bfd20138faea57bec56f9ffba6185d276e3107ba5b2/questionary-2.1.0-py3-none-any.whl", hash = "sha256:44174d237b68bc828e4878c763a9ad6790ee61990e0ae72927694ead57bab8ec", size = 36747 },
+]
+
+[[package]]
 name = "rarfile"
 version = "4.2"
 source = { registry = "https://pypi.org/simple" }
@@ -849,6 +900,24 @@ wheels = [
 ]
 
 [[package]]
+name = "toml"
+version = "0.10.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/be/ba/1f744cdc819428fc6b5084ec34d9b30660f6f9daaf70eead706e3203ec3c/toml-0.10.2.tar.gz", hash = "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f", size = 22253 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b", size = 16588 },
+]
+
+[[package]]
+name = "tomlkit"
+version = "0.13.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b1/09/a439bec5888f00a54b8b9f05fa94d7f901d6735ef4e55dcec9bc37b5d8fa/tomlkit-0.13.2.tar.gz", hash = "sha256:fff5fe59a87295b278abd31bec92c15d9bc4a06885ab12bcea52c71119392e79", size = 192885 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f9/b6/a447b5e4ec71e13871be01ba81f5dfc9d0af7e473da256ff46bc0e24026f/tomlkit-0.13.2-py3-none-any.whl", hash = "sha256:7a974427f6e119197f670fbbbeae7bef749a6c14e793db934baefc1b5f03efde", size = 37955 },
+]
+
+[[package]]
 name = "tqdm"
 version = "4.67.1"
 source = { registry = "https://pypi.org/simple" }
@@ -876,6 +945,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/aa/63/e53da845320b757bf29ef6a9062f5c669fe997973f966045cb019c3f4b66/urllib3-2.3.0.tar.gz", hash = "sha256:f8c5449b3cf0861679ce7e0503c7b44b5ec981bec0d1d3795a07f1ba96f0204d", size = 307268 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c8/19/4ec628951a74043532ca2cf5d97b7b14863931476d117c471e8e2b1eb39f/urllib3-2.3.0-py3-none-any.whl", hash = "sha256:1cee9ad369867bfdbbb48b7dd50374c0967a0bb7710050facf0dd6911440e3df", size = 128369 },
+]
+
+[[package]]
+name = "wcwidth"
+version = "0.2.13"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/63/53559446a878410fc5a5974feb13d31d78d752eb18aeba59c7fef1af7598/wcwidth-0.2.13.tar.gz", hash = "sha256:72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5", size = 101301 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fd/84/fd2ba7aafacbad3c4201d395674fc6348826569da3c0937e75505ead3528/wcwidth-0.2.13-py2.py3-none-any.whl", hash = "sha256:3da69048e4540d84af32131829ff948f1e022c1c6bdb8d6102117aac784f6859", size = 34166 },
 ]
 
 [[package]]
