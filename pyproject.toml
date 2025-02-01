@@ -1,6 +1,6 @@
 [project]
 name = "intelliparse"
-version = "v0.0.3"
+version = "v0.0.4"
 description = "Intelliparse is your all-in-one solution to extract text, images, tables, and metadata from **various file formats** - from common documents to complex CAD drawings. Powered by AI for intelligent content understanding."
 readme = "README.md"
 requires-python = ">=3.13"
