@@ -39,7 +39,6 @@ Explore the `RawFile` class and the `intellibricks.parsers` module to learn more
 from .types import ParsedFile
 from .parsers import (
     FileParser,
-    IntellibricksFileParser,
     PDFFileParser,
     ExcelFileParser,
     CompressedFileParser,
@@ -57,7 +56,6 @@ __all__: list[str] = [
     "ParsedFile",
     "FileParser",
     "RawFile",
-    "IntellibricksFileParser",
     "PDFFileParser",
     "ExcelFileParser",
     "CompressedFileParser",
