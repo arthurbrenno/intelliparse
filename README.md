@@ -44,7 +44,7 @@ choco install magic
 ### Parse Any File
 ```python
 file = RawFile.from_bytes(b"file content", "secret_data.xlsx")
-parsed = await FileParser().parse_async(file) # ParsedFile
+parsed = FileParser().parse(file) # ParsedFile
 
 for section in parsed.sections:
     print(f"Section {section.number}:")
@@ -111,7 +111,7 @@ parser = FileParser(
     ),
 )
 
-parsed = await parser.parse_async(RawFile.from_path("presentation.mp4"))
+parsed = parser.parse(RawFile.from_path("presentation.mp4"))
 print(f"📽 Video Description: {parsed.md}")
 ```
 
