@@ -11,10 +11,10 @@ from intelliparse.types import RawFile
 # Parse any file with AI-powered insights
 file = RawFile.from_path("contract.pdf")
 parser = FileParser()
-parsed = await parser.parse_async(file)
+parsed_file = parser.parse(file)
 
-print(f"🔍 Found {len(parsed.sections)} sections!")
-print(f"📄 Text: {parsed.sections[0].text[:200]}...")
+print(f"🔍 Found {len(parsed_file.sections)} sections!")
+print(f"📄 Text: {parsed_file.sections[0].text[:200]}...")
 ```
 
 ## 🌟 Features
