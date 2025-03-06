@@ -587,7 +587,7 @@ class Edge(msgspec.Struct, frozen=True):
         Optional[dict[str, Any]],
         msgspec.Meta(description="Additional metadata of the edge."),
     ] = msgspec.field(default=None)
-c
+
 
 class Schema(msgspec.Struct, frozen=True):
     """
