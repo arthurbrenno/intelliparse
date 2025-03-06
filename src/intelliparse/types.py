@@ -559,109 +559,35 @@ class SectionContent(msgspec.Struct, frozen=True):
         )
 
 
-class JobMetadata(msgspec.Struct, frozen=True):
-    """
-    Represents metadata associated with a parsing job.
+class Vertex(msgspec.Struct, frozen=True):
+    name: str
+    metadata: Annotated[
+        Optional[dict[str, Any]],
+        msgspec.Meta(description="Additional (optional) metadata for the vertex."),
+    ] = msgspec.field(default=None)
 
-    This class is used to track various metrics related to a file parsing job, such as
-    credits used, maximum allowed credits, credit usage for the job, number of pages processed,
-    and whether the job was a cache hit.
 
-    **Attributes:**
+class Edge(msgspec.Struct, frozen=True):
+    subject: Annotated[
+        Vertex, msgspec.Meta(description="First vertex the edge is connecting to.")
+    ]
 
-    *   `credits_used` (float):
-        The total credits used for the parsing job. Must be greater than or equal to 0. Defaults to 0.0.
+    predicate: Annotated[str, msgspec.Meta(description="Predicate of the edge.")]
+    """☝️☝️☝️ Arthur TOSTA ☝️☝️☝️"""
 
-        **Example:**
-        ```python
-        metadata = JobMetadata(credits_used=0.5)
-        print(metadata.credits_used) # Output: 0.5
-        ```
+    object: Annotated[
+        Vertex, msgspec.Meta(description="Second vertex the edge is connecting to.")
+    ]
 
-    *   `credits_max` (int):
-        The maximum credits allowed for the parsing job. Must be greater than or equal to 0. Defaults to 0.
+    weight: Annotated[
+        float, msgspec.Meta(description="The weight of the edge. Defaults to 1.")
+    ] = msgspec.field(default=1.0)
 
-        **Example:**
-        ```python
-        metadata = JobMetadata(credits_max=100)
-        print(metadata.credits_max) # Output: 100
-        ```
-
-    *   `job_credits_usage` (int):
-        Credits specifically used for this particular job. Must be greater than or equal to 0. Defaults to 0.
-
-        **Example:**
-        ```python
-        metadata = JobMetadata(job_credits_usage=10)
-        print(metadata.job_credits_usage) # Output: 10
-        ```
-
-    *   `job_pages` (int):
-        The number of pages processed in the job. Must be greater than or equal to 0. Defaults to 0.
-
-        **Example:**
-        ```python
-        metadata = JobMetadata(job_pages=5)
-        print(metadata.job_pages) # Output: 5
-        ```
-
-    *   `job_is_cache_hit` (bool):
-        A boolean flag indicating whether the parsing job was a cache hit. Defaults to `False`.
-        If `True`, it means the result was retrieved from a cache instead of being re-processed.
-
-        **Example:**
-        ```python
-        metadata_cache_hit = JobMetadata(job_is_cache_hit=True)
-        metadata_cache_miss = JobMetadata(job_is_cache_hit=False)
-        print(metadata_cache_hit.job_is_cache_hit) # Output: True
-        print(metadata_cache_miss.job_is_cache_hit) # Output: False
-        ```
-    """
-
-    credits_used: Annotated[
-        float,
-        msgspec.Meta(
-            title="Credits Used",
-            description="Credits used for the job",
-            ge=0,
-        ),
-    ] = 0.0
-
-    credits_max: Annotated[
-        int,
-        msgspec.Meta(
-            title="Credits Max",
-            description="Maximum credits allowed for the job",
-            ge=0,
-        ),
-    ] = 0
-
-    job_credits_usage: Annotated[
-        int,
-        msgspec.Meta(
-            title="Job Credits Usage",
-            description="Credits used for the job",
-            ge=0,
-        ),
-    ] = 0
-
-    job_pages: Annotated[
-        int,
-        msgspec.Meta(
-            title="Job Pages",
-            description="Number of pages processed",
-            ge=0,
-        ),
-    ] = 0
-
-    job_is_cache_hit: Annotated[
-        bool,
-        msgspec.Meta(
-            title="Job Is Cache Hit",
-            description="Whether the job is a cache hit",
-        ),
-    ] = False
-
+    metadata: Annotated[
+        Optional[dict[str, Any]],
+        msgspec.Meta(description="Additional metadata of the edge."),
+    ] = msgspec.field(default=None)
+c
 
 class Schema(msgspec.Struct, frozen=True):
     """
@@ -717,7 +643,7 @@ class Schema(msgspec.Struct, frozen=True):
     """
 
     entities: Annotated[
-        Sequence[str],
+        Sequence[Vertex],
         msgspec.Meta(
             title="Entities",
             description="A list of entity names present in the document.",
@@ -726,10 +652,10 @@ class Schema(msgspec.Struct, frozen=True):
         ),
     ]
 
-    relations: Annotated[
-        Sequence[str],
+    relationships: Annotated[
+        Sequence[Edge],
         msgspec.Meta(
-            title="Relations",
+            title="relationships",
             description="A list of relation names present in the document.",
             min_length=1,
             examples=[["works_at", "located_in", "employs"]],
@@ -737,7 +663,7 @@ class Schema(msgspec.Struct, frozen=True):
     ]
 
     validation_schema: Annotated[
-        dict[str, Sequence[str]],
+        dict[Vertex, Sequence[Edge]],
         msgspec.Meta(
             title="Validation Schema",
             description="A dictionary mapping entities to lists of valid relations.",
@@ -750,6 +676,15 @@ class Schema(msgspec.Struct, frozen=True):
             ],
         ),
     ]
+
+    @property
+    def id(self) -> str:
+        """An unique identifier for this schema, where the same schemas would produce
+        the same ID.
+
+        Returns:
+            str: _description_
+        """
 
 
 class ParsedFile(msgspec.Struct, frozen=True):
@@ -969,7 +904,7 @@ class ParsedFile(msgspec.Struct, frozen=True):
         _trace_params.update(cast(dict[str, Any], trace_params) or {})
 
         output = await synapse.complete_async(
-            prompt=f"<document> {[sec.text for sec in self.sections]} </document>",
+            prompt=f"<document> {[f'Section #{sec_num + 1}: \n\n{sec.md}' for sec_num, sec in enumerate(self.sections)]} </document>",
             system_prompt="You are an AI assistant who is an expert in natural"
             "language processing and especially named entity recognition.",
             response_model=ChainOfThought[Schema],
