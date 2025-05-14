@@ -1070,10 +1070,12 @@ class DocxFileParser(FileParser, frozen=True, tag="docx"):
     *   **Image Extraction:** Extracts images embedded within the DOCX document.
     *   **Visual Description (Optional):** When `ParsingStrategy.HIGH` is used and a `visual_description_agent` is provided, it generates AI-powered descriptions for extracted images.
     *   **Single Section Output:**  Outputs the entire DOCX content as a single section in the `ParsedFile` (DOCX files do not inherently have pages like PDFs).
+    *   **.doc Conversion:** Automatically converts older .doc formats to .docx using LibreOffice before parsing.
 
     **Dependencies:**
 
     *   Requires the `docx` library (python-docx) to be installed (automatically handled if you installed `intellibricks[files]`).
+    *   Requires LibreOffice to be installed and in the system PATH for .doc conversion.
 
     **Methods:**
 
@@ -1130,9 +1132,37 @@ class DocxFileParser(FileParser, frozen=True, tag="docx"):
 
         with tempfile.TemporaryDirectory() as temp_dir:
             file_path = f"{temp_dir}/{file.name}"
-            file.save_to_file(file_path)
+            
+            # Check if we need to convert from .doc to .docx
+            if file.extension == "doc":
+                try:
+                    file.save_to_file(file_path)
+                    converted_docx_file = self._convert_to_docx(file)
+                    converted_docx_file.save_to_file(file_path)
+                except RuntimeError as e:
+                    # If conversion fails, log the error and try with original file
+                    exception_logger.exception(f"Doc to docx conversion failed: {str(e)}. Trying with original file.")
+                    file.save_to_file(file_path)
+            else:
+                file.save_to_file(file_path)
 
-            document = Document(file_path)
+            try:
+                document = Document(file_path)
+            except Exception as e:
+                # If document still fails to load, return a simple error message
+                exception_logger.exception(f"Failed to load document: {str(e)}")
+                return ParsedFile(
+                    name=file.name,
+                    sections=[
+                        SectionContent(
+                            number=1,
+                            text=f"Error: Could not parse file. The document may be corrupted or in an unsupported format.",
+                            md=f"Error: Could not parse file. The document may be corrupted or in an unsupported format.",
+                            images=[],
+                        )
+                    ],
+                )
+                
             image_cache: dict[str, tuple[str, str]] = {}  # (md, ocr_text)
 
             paragraph_texts = [p.text for p in document.paragraphs if p.text.strip()]
@@ -1191,6 +1221,76 @@ class DocxFileParser(FileParser, frozen=True, tag="docx"):
                     )
                 ],
             )
+            
+    def _convert_to_docx(self, file: RawFile) -> RawFile:
+        """Convert Word files (.doc) to .docx format and return as RawFile.
+
+        Args:
+            file: RawFile instance containing the input file data.
+
+        Returns:
+            RawFile instance containing converted content.
+
+        Raises:
+            RuntimeError: If conversion fails or LibreOffice not installed.
+        """
+
+        def _is_libreoffice_installed() -> bool:
+            try:
+                subprocess.run(
+                    ["libreoffice", "--version"],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    check=True,
+                )
+                return True
+            except (subprocess.CalledProcessError, FileNotFoundError):
+                return False
+
+        if not _is_libreoffice_installed():
+            raise RuntimeError("LibreOffice not found in system PATH")
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Write input file to temporary directory
+            input_path = os.path.join(temp_dir, file.name)
+            with open(input_path, "wb") as f:
+                f.write(file.contents)
+
+            # Run LibreOffice conversion
+            try:
+                subprocess.run(
+                    [
+                        "libreoffice",
+                        "--headless",
+                        "--convert-to",
+                        "docx",
+                        "--outdir",
+                        temp_dir,
+                        input_path,
+                    ],
+                    check=True,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.PIPE,
+                    timeout=60,
+                )
+            except subprocess.CalledProcessError as e:
+                error_msg = e.stderr.decode().strip() if e.stderr else "Unknown error"
+                raise RuntimeError(f"Conversion failed: {error_msg}") from e
+            except subprocess.TimeoutExpired:
+                raise RuntimeError("Conversion timed out after 60 seconds")
+
+            # Determine output file path
+            output_filename = Path(file.name).stem + ".docx"
+            output_path = os.path.join(temp_dir, output_filename)
+
+            if not os.path.exists(output_path):
+                available_files = os.listdir(temp_dir)
+                raise RuntimeError(
+                    f"Converted file not found at {output_path}. Found files: {available_files}"
+                )
+
+            # Read converted file and return as RawFile
+            return RawFile.from_file_path(output_path)
 
 
 @_parses("ppt", "pptx", "pptm")

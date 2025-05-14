@@ -685,6 +685,17 @@ class Schema(msgspec.Struct, frozen=True):
         Returns:
             str: _description_
         """
+        import hashlib
+        import json
+
+        return hashlib.sha256(
+            json.dumps(
+                {
+                    "entities": [entity.name for entity in self.entities],
+                    "relations": [edge.predicate for edge in self.relationships],
+                }
+            ).encode("utf-8")
+        ).hexdigest()
 
 
 class ParsedFile(msgspec.Struct, frozen=True):
